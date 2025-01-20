@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from . import models
 from . import serializers
 from rest_framework.permissions import IsAuthenticated
@@ -19,21 +19,29 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-class BookingView(APIView):
-    def get(self, request):
-        bookings = models.Booking.objects.all()
-        serializer = serializers.BookingSerializer(bookings, many=True)
-        return Response(serializer.data)
+class BookingViewSet(viewsets.ModelViewSet):
+    queryset = models.Booking.objects.all()
+    serializer_class = serializers.BookingSerializer
 
 
-class MenuView(APIView):
-    def get(self, request):
-        menu = models.Menu.objects.all()
-        serializer = serializers.BookingSerializer(menu, many=True)
-        return Response(serializer.data)
+class MenuItemView(generics.ListCreateAPIView):
+    # With APIView class
+    # def get(self, request):
+    #     menu = models.Menu.objects.all()
+    #     serializer = serializers.BookingSerializer(menu, many=True)
+    #     return Response(serializer.data)
 
-    def post(self, request):
-        serializer = serializers.MenuSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"status": "success", "data": serializer.data}, status=201)
+    # def post(self, request):
+    #     serializer = serializers.MenuSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({"status": "success", "data": serializer.data}, status=201)
+
+    # With ListCreateAPIView class
+    queryset = models.MenuItem.objects.all()
+    serializer_class = serializers.MenuItemSerializer
+
+
+class SingleMenuView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.MenuItem.objects.all()
+    serializer_class = serializers.MenuItemSerializer
