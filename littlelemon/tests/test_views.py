@@ -22,24 +22,3 @@ class MenuViewTest(TestCase):
         serializer = MenuItemSerializer(menu, many=True)
         # Check if the response data is equal to the serialized data
         self.assertEqual(response.data, serializer.data)
-    
-    # def test_getall(self):
-    #     # Create a user. This user is only visible to the test case
-    #     user = User.objects.create_user(username="test", password="test")
-    #     # Create a token programatically for the user
-    #     token = Token.objects.create(user=user)
-    #     self.client = Client(HTTP_AUTHORIZATION=f"Token {token.key}")
-    #     # Get the Endpoint from the viewname (In this case, the viewname is menu-items, which maps to the MenuItemView class)
-    #     # url = reverse('appraisal-detail', kwargs={'pk': some_pk}) -- Use this if the view has a parameter, like an ID.
-    #     url = reverse("menu-items")
-    #     response = self.client.get(url, format="json")
-
-    #     # Get all Menu objects
-    #     menu = MenuItem.objects.all()
-    #     # Serialize the menu objects
-    #     serializer = MenuItemSerializer(menu, many=True)
-    #     # Check if the response data is equal to the serialized data
-    #     self.assertEqual(response.data, serializer.data)
-
-
-
